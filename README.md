@@ -16,8 +16,7 @@ The implementation supports rings over $\mathbb{Z}_{2^k}$ for $k \leq 62$. To co
 mkdir build
 cd build
 ```
-
-If `k <= 30`, run
+The code uses different definitions of the type `Lint` depending on the chosen ring size `k` to aid in overall performance. If `k <= 30`, run
 
 ```
 cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=ON ..
@@ -65,7 +64,7 @@ The options are:
 
 ### MiniONN network evaluation (`minionn`)
 
-The `minionn` argument runs the four-layer CNN from Liu~et~al.'s landmark 2017 paper "Oblivious Neural Network Predictions via MiniONN Transformations" (Figure 12). To run the benchmark, execute the following command
+The `minionn` argument runs the four-layer CNN from Liu~et~al.'s landmark 2017 paper "Oblivious Neural Network Predictions via MiniONN Transformations" (Figure 12). The program must be compiled using the `31 <= k <= 62` from above. To run the benchmark, execute the following command
 ```
 ./rss_nn <id> <config> minionn <num_images> <batch_size> <model_path>
 ```
@@ -76,7 +75,7 @@ The options are:
 
 ### Quantized Mobilenets evaluation (`q_mobilenet`)
 
-The `q_mobilenet` argument runs the inference using the quantized version of the Mobilnet neural network. To run the benchmark, execute the following command
+The `q_mobilenet` argument runs the inference using the quantized version of the Mobilnet neural network. The program must be compiled using the `k <= 30` command from above. To run the benchmark, execute the following command
 ```
 ./rss_nn <id> <config> q_mobilenet <input_dim> <alpha_index> <batch_size> <num_iterations> <num_discarded> <model_path>
 ```
