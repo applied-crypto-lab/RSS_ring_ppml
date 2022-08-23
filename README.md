@@ -17,12 +17,12 @@ mkdir build
 cd build
 ```
 
-If $k \leq 30$, run
+If `k <= 30`, run
 
 ```
 cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=ON ..
 ```
-Otherwise ($31 \leq k \leq 62$), run
+Otherwise (`31 <= k <= 62`), run
 ```
 cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=ON ..
 ```
