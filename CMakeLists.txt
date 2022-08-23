@@ -42,8 +42,8 @@ find_package(CryptoPP REQUIRED)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/build")
 
-# option(USE_30 "Use MY_LIB instead of THEIR_LIB" OFF) #enables 60 vscode, should be default for remote
-option(USE_30 "Use MY_LIB instead of THEIR_LIB" ON) #enables 30 vscode
+option(USE_30 "Use MY_LIB instead of THEIR_LIB" OFF) #enables 60 vscode, should be default for remote
+# option(USE_30 "Use MY_LIB instead of THEIR_LIB" ON) #enables 30 vscode
 if(USE_30)
 
   INCLUDE_DIRECTORIES(
