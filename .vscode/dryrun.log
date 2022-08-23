@@ -1,0 +1,6 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/none/anbaccar/rss_nn_v2'
+make: Leaving directory '/home/none/anbaccar/rss_nn_v2'
+ 
+make: *** No targets specified and no makefile found.  Stop.
+

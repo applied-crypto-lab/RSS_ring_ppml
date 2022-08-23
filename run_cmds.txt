@@ -1,0 +1,287 @@
+-------------------LAN PARAMETERS----------------------
+sudo tc qdisc del dev ens3 root ; sudo tc qdisc add dev ens3 root tbf rate 1000Mbit latency 0.1ms burst 500000 ; sudo tc qdisc show dev ens3
+
+
+---------------- WAN PARAMETERS --------------------------
+sudo tc qdisc del dev ens3 root ;
+sudo tc qdisc add dev ens3 root handle 1: prio priomap 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+sudo tc qdisc add dev ens3 parent 1:1 handle 10: tbf rate 80Mbit latency 0.1ms burst 40000
+sudo tc qdisc add dev ens3 parent 10: handle 20: netem delay 23ms
+sudo tc filter add dev ens3 protocol ip parent 1:0 prio 1 u32 match ip dst 128.205.11.0/24 flowid 1:1
+
+
+
+
+./3pc_ml_runner.sh minionn 1
+./3pc_ml_runner.sh minionn 2
+./3pc_ml_runner.sh minionn 3
+
+./3pc_ml_runner.sh q_mobilenet 1
+./3pc_ml_runner.sh q_mobilenet 2
+./3pc_ml_runner.sh q_mobilenet 3
+
+./3pc_ml_runner.sh q_mobilenet 1 | tee -a q_mobilenet_LAN_$(date -d "today" +"%Y%m%d%H%M").txt
+./3pc_ml_runner.sh q_mobilenet 2 | tee -a q_mobilenet_LAN_$(date -d "today" +"%Y%m%d%H%M").txt
+./3pc_ml_runner.sh q_mobilenet 3 | tee -a q_mobilenet_LAN_$(date -d "today" +"%Y%m%d%H%M").txt
+
+
+sleep 2; ./build/rss_nn 1 runtime-config-lake q_mobilenet 128 0 1 10 2  ~/rss_nn_v2/models
+sleep 1; ./build/rss_nn 2 runtime-config-lake q_mobilenet 128 0 1 10 2  ~/rss_nn_v2/models
+sleep 0; ./build/rss_nn 3 runtime-config-lake q_mobilenet 128 0 1 10 2  ~/rss_nn_v2/models
+
+
+./3pc_runner.sh 30 1 | tee -a 30_micro_LAN_$(date -d "today" +"%Y%m%d%H%M").txt
+./3pc_runner.sh 30 2 | tee -a 30_micro_LAN_$(date -d "today" +"%Y%m%d%H%M").txt
+./3pc_runner.sh 30 3 | tee -a 30_micro_LAN_$(date -d "today" +"%Y%m%d%H%M").txt
+
+./3pc_runner.sh 30 1 LAN
+./3pc_runner.sh 30 2 LAN
+./3pc_runner.sh 30 3 LAN
+
+./3pc_runner.sh 60 1 LAN
+./3pc_runner.sh 60 2 LAN
+./3pc_runner.sh 60 3 LAN
+
+./3pc_runner.sh 60 1 WAN
+./3pc_runner.sh 60 2 WAN
+./3pc_runner.sh 60 3 WAN
+
+
+./5pc_ml_runner.sh minionn 1 
+./5pc_ml_runner.sh minionn 2 
+./5pc_ml_runner.sh minionn 3 
+./5pc_ml_runner.sh minionn 4 
+./5pc_ml_runner.sh minionn 5 
+
+
+
+./3pc_ml_runner.sh eda_rb_pregen 1 
+./3pc_ml_runner.sh eda_rb_pregen 2 
+./3pc_ml_runner.sh eda_rb_pregen 3 
+
+./5pc_ml_runner.sh eda_rb_pregen 1 
+./5pc_ml_runner.sh eda_rb_pregen 2 
+./5pc_ml_runner.sh eda_rb_pregen 3 
+./5pc_ml_runner.sh eda_rb_pregen 4 
+./5pc_ml_runner.sh eda_rb_pregen 5 
+
+./5pc_runner.sh 30 1 LAN 
+./5pc_runner.sh 30 2 LAN 
+./5pc_runner.sh 30 3 LAN 
+./5pc_runner.sh 30 4 LAN 
+./5pc_runner.sh 30 5 LAN 
+
+./7pc_runner.sh 30 1 LAN  
+./7pc_runner.sh 30 2 LAN  
+./7pc_runner.sh 30 3 LAN  
+./7pc_runner.sh 30 4 LAN  
+./7pc_runner.sh 30 5 LAN  
+./7pc_runner.sh 30 6 LAN  
+./7pc_runner.sh 30 7 LAN  
+
+
+
+./7pc_runner.sh 30 1 WAN ; cd build; cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. ; make -j8 ; cd .. ; sleep 60 ; ./7pc_runner.sh 60 1 WAN ;
+
+./7pc_runner.sh 30 2 WAN ; cd build; cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. ; make -j8 ; cd .. ; sleep 50 ; ./7pc_runner.sh 60 2 WAN ;
+
+./7pc_runner.sh 30 3 WAN ; cd build; cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. ; make -j8 ; cd .. ; sleep 40 ; ./7pc_runner.sh 60 3 WAN ;
+
+./7pc_runner.sh 30 4 WAN ; cd build; cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. ; make -j8 ; cd .. ; sleep  30; ./7pc_runner.sh 60 4 WAN ;
+
+./7pc_runner.sh 30 5 WAN ; cd build; cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. ; make -j8 ; cd .. ; sleep 20 ; ./7pc_runner.sh 60 5 WAN ;
+
+./7pc_runner.sh 30 6 WAN ; cd build; cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. ; make -j8 ; cd .. ; sleep 10 ; ./7pc_runner.sh 60 6 WAN ;
+
+./7pc_runner.sh 30 7 WAN ; cd build; cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. ; make -j8 ; cd .. ; sleep  0; ./7pc_runner.sh 60 7 WAN ;
+
+
+
+
+
+./3pc_runner.sh 30 1 LAN ; cd build; cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. ; make -j8 ; cd .. ; sleep 20 ; ./3pc_runner.sh 60 1 LAN ;
+
+./3pc_runner.sh 30 2 LAN ; cd build; cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. ; make -j8 ; cd .. ; sleep 10 ; ./3pc_runner.sh 60 2 LAN ;
+
+./3pc_runner.sh 30 3 LAN ; cd build; cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. ; make -j8 ; cd .. ; sleep  0 ; ./3pc_runner.sh 60 3 LAN ;
+
+
+
+
+./3pc_runner.sh 30 1 WAN ; cd build; cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. ; make -j8 ; cd .. ; sleep 20 ; ./3pc_runner.sh 60 1 WAN ;
+
+./3pc_runner.sh 30 2 WAN ; cd build; cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. ; make -j8 ; cd .. ; sleep 10 ; ./3pc_runner.sh 60 2 WAN ;
+
+./3pc_runner.sh 30 3 WAN ; cd build; cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. ; make -j8 ; cd .. ; sleep  0 ; ./3pc_runner.sh 60 3 WAN ;
+
+
+
+
+
+
+sleep 2; ./build/rss_nn 1 runtime-config-lake micro mult 30 1000000 1 1000
+sleep 1; ./build/rss_nn 2 runtime-config-lake micro mult 30 1000000 1 1000
+sleep 0; ./build/rss_nn 3 runtime-config-lake micro mult 30 1000000 1 1000
+
+
+
+
+
+
+sleep 2; ./build/rss_nn 1 runtime-config micro eda 60 1000000 1 1
+sleep 1; ./build/rss_nn 2 runtime-config micro eda 60 1000000 1 1
+sleep 0; ./build/rss_nn 3 runtime-config micro eda 60 1000000 1 1
+
+
+sleep 2; ./build/rss_nn 1 runtime-config-lake-3 micro edabit 30 100000 1 100
+sleep 1; ./build/rss_nn 2 runtime-config-lake-3 micro edabit 30 100000 1 100
+sleep 0; ./build/rss_nn 3 runtime-config-lake-3 micro edabit 30 100000 1 100
+
+
+sleep 2; ./build/rss_nn 1 runtime-config-lake micro mat_mult 30 100 1 1000
+sleep 1; ./build/rss_nn 2 runtime-config-lake micro mat_mult 30 100 1 1000
+sleep 0; ./build/rss_nn 3 runtime-config-lake micro mat_mult 30 100 1 1000
+
+sleep 2; ./build/rss_nn 1 runtime-config-lake micro msb_rb 30 1000000 1 20
+sleep 1; ./build/rss_nn 2 runtime-config-lake micro msb_rb 30 1000000 1 20
+sleep 0; ./build/rss_nn 3 runtime-config-lake micro msb_rb 30 1000000 1 20
+
+
+
+sleep 4; ./build/rss_nn 1 runtime-config-lake-5 micro mat_mult 60 10000 1 20
+sleep 3; ./build/rss_nn 2 runtime-config-lake-5 micro mat_mult 60 10000 1 20
+sleep 2; ./build/rss_nn 3 runtime-config-lake-5 micro mat_mult 60 10000 1 20
+sleep 1; ./build/rss_nn 4 runtime-config-lake-5 micro mat_mult 60 10000 1 20
+sleep 0; ./build/rss_nn 5 runtime-config-lake-5 micro mat_mult 60 10000 1 20
+
+
+sleep 6  ; ./build/rss_nn 1 runtime-config-lake-7 micro mat_mult 60 10000 1 25
+sleep 5  ; ./build/rss_nn 2 runtime-config-lake-7 micro mat_mult 60 10000 1 25
+sleep 4  ; ./build/rss_nn 3 runtime-config-lake-7 micro mat_mult 60 10000 1 25
+sleep 3  ; ./build/rss_nn 4 runtime-config-lake-7 micro mat_mult 60 10000 1 25
+sleep 2  ; ./build/rss_nn 5 runtime-config-lake-7 micro mat_mult 60 10000 1 25
+sleep 1  ; ./build/rss_nn 6 runtime-config-lake-7 micro mat_mult 60 10000 1 25
+sleep 0  ; ./build/rss_nn 7 runtime-config-lake-7 micro mat_mult 60 10000 1 25
+
+
+sleep 6  ; ./build/rss_nn 1 runtime-config-7 micro msb_rb 30 100 1 1
+sleep 5  ; ./build/rss_nn 2 runtime-config-7 micro msb_rb 30 100 1 1
+sleep 4  ; ./build/rss_nn 3 runtime-config-7 micro msb_rb 30 100 1 1
+sleep 3  ; ./build/rss_nn 4 runtime-config-7 micro msb_rb 30 100 1 1
+sleep 2  ; ./build/rss_nn 5 runtime-config-7 micro msb_rb 30 100 1 1
+sleep 1  ; ./build/rss_nn 6 runtime-config-7 micro msb_rb 30 100 1 1
+sleep 0  ; ./build/rss_nn 7 runtime-config-7 micro msb_rb 30 100 1 1
+
+
+sleep 2; ./build/rss_nn 1 runtime-config minionn 1 1 /projects/rss_nn/models
+sleep 1; ./build/rss_nn 2 runtime-config minionn 1 1 /projects/rss_nn/models
+sleep 0; ./build/rss_nn 3 runtime-config minionn 1 1 /projects/rss_nn/models
+
+
+
+sleep 4; ./build/rss_nn 1 runtime-config-5 minionn 1 1 /projects/rss_nn/models
+sleep 3; ./build/rss_nn 2 runtime-config-5 minionn 1 1 /projects/rss_nn/models
+sleep 2; ./build/rss_nn 3 runtime-config-5 minionn 1 1 /projects/rss_nn/models
+sleep 1; ./build/rss_nn 4 runtime-config-5 minionn 1 1 /projects/rss_nn/models
+sleep 0; ./build/rss_nn 5 runtime-config-5 minionn 1 1 /projects/rss_nn/models
+
+
+sleep 2; ./build/rss_nn 1 runtime-config q_mobilenet 128 0 1 1 0  /projects/rss_nn/models
+sleep 1; ./build/rss_nn 2 runtime-config q_mobilenet 128 0 1 1 0  /projects/rss_nn/models
+sleep 0; ./build/rss_nn 3 runtime-config q_mobilenet 128 0 1 1 0  /projects/rss_nn/models
+
+
+sleep 2; ./build/rss_nn 1 runtime-config test 30 1 1
+sleep 1; ./build/rss_nn 2 runtime-config test 30 1 1
+sleep 0; ./build/rss_nn 3 runtime-config test 30 1 1
+
+
+For generating private key: openssl genrsa -out private01.pem 2048
+then output public key:  openssl rsa -in private01.pem -outform PEM -pubout -out public01.pem
+
+
+mkdir build ; cd build
+cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11  ..
+
+
+// compile with k=30
+rm -rf build; mkdir build; cd build; cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=ON .. ; make -j8  ; cd ..
+
+// compile with k=60
+mkdir build; cd build; cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. ; make -j8 ; cd ..
+
+
+// gcc
+mkdir build; cd build; cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=gcc -D CMAKE_CXX_COMPILER=g++ -DUSE_30=OFF .. ; make -j8 ; cd ..
+
+
+
+valgrind --tool=massif ./build/rss_nn 7 runtime-config-lake-7 micro mat_mult 60 250000 1 1
+
+
+valgrind --tool=massif ./build/rss_nn 5 runtime-config-lake-7 micro mat_mult 30 250000 1 1
+
+
+k = 30
+cd build; cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=ON .. ; make -j8  ; cd ..
+
+k = 60
+cd build; cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. ; make -j8 ; cd ..
+
+
+
+
+sudo tc qdisc add dev ens3 root tbf rate 1000Mbit latency 0.1ms burst 500000
+
+
+sudo tc qdisc show dev ens3
+
+
+// delete rule
+sudo tc qdisc del dev ens3 root
+
+
+egrep '^CONFIG_HZ_[0-9]+' /boot/config-$(uname -r)
+
+
+
+
+notes ----
+run deviation is basically nonexistent for q_mobilenet, compared to rigel machines/cluster
+
+
+
+
+
+sleep 2; ./build/rss_nn 1 runtime-config eda_rb_pregen 128 0 1 10 2 ~/rss_nn_v2/eda_rb_optimizations.txt
+sleep 1; ./build/rss_nn 2 runtime-config eda_rb_pregen 128 0 1 10 2 ~/rss_nn_v2/eda_rb_optimizations.txt
+sleep 0; ./build/rss_nn 3 runtime-config eda_rb_pregen 128 0 1 10 2 ~/rss_nn_v2/eda_rb_optimizations.txt
+
+
+
+./5pc_runner.sh 30 1 LAN && cd build && cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. && make -j8 && cd .. && sleep 40 && ./5pc_runner.sh 60 1 LAN 
+
+./5pc_runner.sh 30 2 LAN && cd build && cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. && make -j8 && cd .. && sleep 30 && ./5pc_runner.sh 60 2 LAN 
+
+./5pc_runner.sh 30 3 LAN && cd build && cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. && make -j8 && cd .. && sleep 20  && ./5pc_runner.sh 60 3 LAN 
+
+./5pc_runner.sh 30 4 LAN && cd build && cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. && make -j8 && cd .. && sleep 10 && ./5pc_runner.sh 60 4 LAN 
+
+./5pc_runner.sh 30 5 LAN && cd build && cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. && make -j8 && cd .. && sleep 0 && ./5pc_runner.sh 60 5 LAN 
+
+
+
+
+
+
+------------------------- WAN -----------------------------
+
+./5pc_runner.sh 30 1 WAN && cd build && cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. && make -j8 && cd .. && sleep 40 && ./5pc_runner.sh 60 1 WAN 
+
+./5pc_runner.sh 30 2 WAN && cd build && cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. && make -j8 && cd .. && sleep 30 && ./5pc_runner.sh 60 2 WAN 
+
+./5pc_runner.sh 30 3 WAN && cd build && cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. && make -j8 && cd .. && sleep 20  && ./5pc_runner.sh 60 3 WAN 
+
+./5pc_runner.sh 30 4 WAN && cd build && cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. && make -j8 && cd .. && sleep 10 && ./5pc_runner.sh 60 4 WAN 
+
+./5pc_runner.sh 30 5 WAN && cd build && cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. && make -j8 && cd .. && sleep 0 && ./5pc_runner.sh 60 5 WAN 

@@ -1,0 +1,26 @@
+{
+    "C_Cpp.errorSquiggles": "Disabled",
+    "files.associations": {
+        "random": "cpp",
+        "array": "cpp",
+        "bitset": "cpp",
+        "string_view": "cpp",
+        "initializer_list": "cpp",
+        "utility": "cpp",
+        "vector": "cpp",
+        "chrono": "cpp",
+        "new": "cpp",
+        "tcp.h": "c",
+        "connection.h": "c",
+        "map": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "unordered_map": "cpp",
+        "cmath": "cpp",
+        "*.tcc": "cpp",
+        "istream": "cpp",
+        "cstdlib": "c"
+    },
+    "C_Cpp.intelliSenseEngineFallback": "Enabled",
+    "svn.ignoreMissingSvnWarning": true
+}
