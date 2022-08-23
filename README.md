@@ -37,13 +37,13 @@ where `n` is the number of parties.
 
 ## Running the code
 
-To run the code, edit the IP addresses in `runtime-config` file to reflect the machine(s) that will run the computation. Parties must start running the code in **descending order** by their ID, i.e. party $N$ first, then party $N-1$, and so on. Party $i$ would execute the command
+To run the code, edit the IP addresses in `runtime-config` file to reflect the machine(s) that will run the computation. Parties must start running the code in **descending order** by their ID, i.e. party `N` first, then party `N-1`, and so on. Party `i` would execute the command
 ```
 ./rss_nn <id> <config> <experiment>
 ```
-where `id` is the unique identifier of party $i$, `config` is the name of the configuration file (such as `runtime-config`), and `experiment` is the experiment you wish to run: [`micro`](#microbenchmarks-micro),  [`minionn`](#minionn-network-evaluation-minionn),  and [`q_mobilenet`](#quantized-mobilenets-evaluation-q_mobilenet).
+where `id` is the unique identifier of party `i`, `config` is the name of the configuration file (such as `runtime-config`), and `experiment` is the experiment you wish to run: [`micro`](#microbenchmarks-micro),  [`minionn`](#minionn-network-evaluation-minionn),  and [`q_mobilenet`](#quantized-mobilenets-evaluation-q_mobilenet).
 
-### Microbenchmarks `micro`
+### Microbenchmarks (`micro`)
 
 The `micro` argument runs a single microbenchmark for a given protocol, and is executed as follows:
 ```
