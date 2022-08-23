@@ -1,5 +1,5 @@
 # Replicated Secret Sharing over a Ring
-This is our implementation of the protocols and from our PETS 2023.1 paper "Multi-Party Replicated Secret Sharing over a Ring with Applications to Privacy-Preserving Machine Learning."
+This is our implementation of the protocols and from our PETS 2023.1 paper "Multi-Party Replicated Secret Sharing over a Ring with Applications to Privacy-Preserving Machine Learning." In its current state, the implementation supports 3-, 5-, and 7-party computation in the semi-honest, honest majority setting.
 
 ## Requirements
 
