@@ -16,7 +16,9 @@ The implementation supports rings over $\mathbb{Z}_{2^k}$ for $k \leq 62$. To co
 mkdir build
 cd build
 ```
+
 If $k \leq 30$, run
+
 ```
 cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=ON ..
 ```
@@ -39,7 +41,7 @@ To run the code, edit the IP addresses in `runtime-config` file to reflect the m
 ```
 ./rss_nn <id> <config> <experiment>
 ```
-where `id` is the unique identifier of party $i$, `config` is the name of the configuration file (such as `runtime-config`), and `experiment` is the experiment you wish to run: [`micro`](#microbenchmarks),  [`minionn`](#minionn-network-evaluation),  and [`q_mobilenet`](#quantized-mobilenets-evaluation).
+where `id` is the unique identifier of party $i$, `config` is the name of the configuration file (such as `runtime-config`), and `experiment` is the experiment you wish to run: [`micro`](#microbenchmarks-micro),  [`minionn`](#minionn-network-evaluation-minionn),  and [`q_mobilenet`](#quantized-mobilenets-evaluation-q_mobilenet).
 
 ### Microbenchmarks `micro`
 
