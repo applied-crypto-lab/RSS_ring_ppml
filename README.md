@@ -17,7 +17,7 @@ mkdir build
 cd build
 ```
 
-If $k \leq 30$, run
+If $`k \leq 30`$, run
 
 ```
 cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=ON ..
@@ -37,7 +37,7 @@ where `n` is the number of parties.
 
 ## Running the code
 
-To run the code, edit the IP addresses in `runtime-config` file to reflect the machine(s) that will run the computation. Parties must start running the code in **descending order** by their ID, i.e. party $N$ first, then party $N-1$, and so on. Party $i$ would execute the command
+To run the code, edit the IP addresses in `runtime-config` file to reflect the machine(s) that will run the computation. Parties must start running the code in **descending order** by their ID, i.e. party $N$ first, then party $`N-1`$, and so on. Party $i$ would execute the command
 ```
 ./rss_nn <id> <config> <experiment>
 ```
