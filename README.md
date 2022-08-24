@@ -46,7 +46,7 @@ where `id` is the unique identifier of party `i`, `config` is the name of the co
 
 The `micro` argument runs a single microbenchmark for a given protocol, and is executed as follows:
 ```
-./rss_nn  <id> <runtime-config> micro <protocol> <ring size(x bits)> <size of data> <batch_size> <num_iterations>
+./rss_nn <id> <config> micro <protocol> <ring_size> <size_of_data> <batch_size> <num_iterations>
 ```
 The options are:
 - `protocol` is the protocol you wish to run. The available options are 
@@ -57,8 +57,8 @@ The options are:
   - `msb_rb`
   - `msb_eda`
   - `mat_mult`
-- `ring size` is the ring size $k$ in bits (e.g. 30, 60)
-- `size of data` is the size of the data to test. For `mat_mult`, the size is the total number of elements, which must have an integer square root (e.g. 100, 10000, 250000)
+- `ring_size` is the ring size `k` in bits (e.g. 30, 60)
+- `size_of_data` is the size of the data to test. For `mat_mult`, the size is the total number of elements, which must have an integer square root (e.g. 100, 10000, 250000)
 - `batch_size` is unused here, set to 1
 - `num_iterations` is the number of times the computation is repeated, and therefore averaged over to eliminate any deviation
 
@@ -75,7 +75,7 @@ The options are:
 
 ### Quantized Mobilenets evaluation (`q_mobilenet`)
 
-The `q_mobilenet` argument runs the inference using the quantized version of the Mobilnet neural network. The program must be compiled using the `k <= 30` command from above. To run the benchmark, execute the following command
+The `q_mobilenet` argument runs the inference using the quantized version of the Mobilenet neural network. The program must be compiled using the `k <= 30` command from above. To run the benchmark, execute the following command
 ```
 ./rss_nn <id> <config> q_mobilenet <input_dim> <alpha_index> <batch_size> <num_iterations> <num_discarded> <model_path>
 ```
@@ -84,5 +84,5 @@ The options are:
 - `alpha_index` is the index corresponding to the width multiplier $\alpha$ of the network (0.25, 0.5, 0.75, 1.0)
 - `batch_size` is the batch size of images you want to evaluate concurrently (e.g. 1, 5, 10)
 - `num_iterations` is the number of times the computation is repeated, and therefore averaged over to eliminate any deviation
-- `num_discarded` is the number of runs which are discarded before recording the actual run times (i.e. the warm up period)
+- `num_discarded` is the number of runs which are discarded before recording the actual run times (i.e. the warmup period)
 - `model_path` is the path to the directory containing the models
