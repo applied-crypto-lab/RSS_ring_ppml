@@ -36,17 +36,17 @@ where `n` is the number of parties.
 
 ## Running the code
 
-To run the code, edit the IP addresses in `runtime-config` file to reflect the machine(s) that will run the computation. Parties must start running the code in **descending order** by their ID, i.e. party `N` first, then party `N-1`, and so on. Party `i` would execute the command
+To run the code, edit the IP addresses in `runtime-config` file to reflect the machine(s) that will run the computation. Parties must start running the code in **descending order** by their ID, i.e. party `N` first, then party `N-1`, and so on. All subsequent commands assume you are in the top level directory (`RSS_ring_ppml`). Party `i` would execute the command
 ```
-./rss_nn <id> <config> <experiment>
+./build/rss_nn <id> <config> <experiment>
 ```
-where `id` is the unique identifier of party `i`, `config` is the name of the configuration file (such as `runtime-config`), and `experiment` is the experiment you wish to run: [`micro`](#microbenchmarks-micro),  [`minionn`](#minionn-network-evaluation-minionn),  and [`q_mobilenet`](#quantized-mobilenets-evaluation-q_mobilenet).
+where `id` is the unique identifier of party `i`, `config` is the name of the configuration file (such as `runtime-config`), and `experiment` is the experiment you wish to run: [`micro`](#microbenchmarks-micro), [`minionn`](#minionn-network-evaluation-minionn), and [`q_mobilenet`](#quantized-mobilenets-evaluation-q_mobilenet).
 
 ### Microbenchmarks (`micro`)
 
 The `micro` argument runs a single microbenchmark for a given protocol, and is executed as follows:
 ```
-./rss_nn <id> <config> micro <protocol> <ring_size> <size_of_data> <batch_size> <num_iterations>
+./build/rss_nn <id> <config> micro <protocol> <ring_size> <size_of_data> <batch_size> <num_iterations>
 ```
 The options are:
 - `protocol` is the protocol you wish to run. The available options are 
@@ -66,7 +66,7 @@ The options are:
 
 The `minionn` argument runs the four-layer CNN from Liu~et~al.'s landmark 2017 paper "Oblivious Neural Network Predictions via MiniONN Transformations" (Figure 12). The program must be compiled using the `31 <= k <= 62` from above. To run the benchmark, execute the following command
 ```
-./rss_nn <id> <config> minionn <num_images> <batch_size> <model_path>
+./build/rss_nn <id> <config> minionn <num_images> <batch_size> <model_path>
 ```
 The options are:
 - `num_images` is the number of images you want to evaluate (in total)
@@ -77,7 +77,7 @@ The options are:
 
 The `q_mobilenet` argument runs the inference using the quantized version of the Mobilenet neural network. The program must be compiled using the `k <= 30` command from above. To run the benchmark, execute the following command
 ```
-./rss_nn <id> <config> q_mobilenet <input_dim> <alpha_index> <batch_size> <num_iterations> <num_discarded> <model_path>
+./build/rss_nn <id> <config> q_mobilenet <input_dim> <alpha_index> <batch_size> <num_iterations> <num_discarded> <model_path>
 ```
 The options are:
 - `input_dim` is the dimension of the input image (128, 160, 192, 224)
