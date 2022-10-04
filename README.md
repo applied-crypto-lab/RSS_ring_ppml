@@ -7,7 +7,7 @@ This is our implementation of the protocols and from our PETS 2023.1 paper "Mult
 - OpenSSL v1.1.1
 - CryptoPP (tested with 5.6.4)
 
-If you are interested in running any neural network experiments, you can download the ones used in the paper from [this link](https://drive.google.com/file/d/1loj9UjmFnKABVB8tLpRoIJUs2YdkFA_2/view?usp=sharing).
+If you are interested in running any neural network experiments, you can download the models and data used in the paper from [this link](https://drive.google.com/file/d/1loj9UjmFnKABVB8tLpRoIJUs2YdkFA_2/view?usp=sharing).
 
 ## Compilation
 
