@@ -6,8 +6,25 @@ This is our implementation of the protocols and from our PETS 2023.1 paper "Mult
 - clang 11 or newer (tested with 11), or gcc 9 or newer (tested with 9). clang is recommended since it performs better.
 - OpenSSL v1.1.1
 - CryptoPP (tested with 5.6.4)
+- x86 CPU (ARM/Apple Silicon are currently incompatible)
 
 If you are interested in running any neural network experiments, you can download the models and data used in the paper from [this link](https://drive.google.com/file/d/1loj9UjmFnKABVB8tLpRoIJUs2YdkFA_2/view?usp=sharing).
+
+## Known Issues
+
+- Some large-scale 7-party microbenchmarks (e.g. RandBit with a batch size of `10^6`) will segfault if the system has insufficient RAM (< 32 GB). If this happens, we recommend breaking it up into two runs of 500,000 and adding the results.
+
+## Docker
+
+A Dockerfile is included containing the build environment and key generation step. To build, run
+```
+docker build . -t rss_ring_ppml
+```
+After the container is built, run
+```
+docker run -it rss_ring_ppml /bin/bash
+```
+This command can be executed in separate terminals to emulate multiple computing parties. You will still need to compile the repository **in each instance** using the commands in the next section according to your chosen ring size.
 
 ## Compilation
 
@@ -19,11 +36,11 @@ cd build
 The code uses different definitions of the type `Lint` depending on the chosen ring size `k` to aid in overall performance. If `k <= 30`, run
 
 ```
-cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=ON .. ; make
+cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=ON .. && make
 ```
 Otherwise (`31 <= k <= 62`), run
 ```
-cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. ; make
+cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. && make
 ```
 
 ## Key generation
@@ -36,7 +53,7 @@ where `n` is the number of parties.
 
 ## Running the code
 
-To run the code, edit the IP addresses in `runtime-config` file to reflect the machine(s) that will run the computation. Parties must start running the code in **descending order** by their ID, i.e. party `N` first, then party `N-1`, and so on. All subsequent commands assume you are in the top level directory (`RSS_ring_ppml`). Party `i` would execute the command
+To run the code, edit the IP addresses in `runtime-config-<n>` (where `n` is the number of parties) file to reflect the machine(s) that will run the computation. Parties must start running the code in **descending order** by their ID, i.e. party `N` first, then party `N-1`, and so on. All subsequent commands assume you are in the top level directory (`RSS_ring_ppml`). Party `i` would execute the command
 ```
 ./build/rss_nn <id> <config> <experiment>
 ```
@@ -61,6 +78,12 @@ The options are:
 - `size_of_data` is the size of the data to test. For `mat_mult`, the size is the total number of elements, which must have an integer square root (e.g. 100, 10000, 250000)
 - `batch_size` is unused here, set to 1
 - `num_iterations` is the number of times the computation is repeated, and therefore averaged over to eliminate any deviation
+
+An example run of party 3 benchmarking 3-party `mult` with `k = 30`, a size of 1000, and repeating the computation 50 times would be 
+```
+./build/rss_nn 3 runtime-config-3 micro mult 30 1000 1 50
+
+```
 
 ### MiniONN network evaluation (`minionn`)
 

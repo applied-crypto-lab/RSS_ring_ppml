@@ -78,7 +78,7 @@ file(GLOB SOURCES
 )
 
 add_executable(rss_nn ${SOURCES})
-
+set_target_properties(rss_nn PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
 # add_library(aes_ni STATIC src/utilities/aes_ni.c)
 # target_include_directories(aes_ni include/aes_ni.h)
 
