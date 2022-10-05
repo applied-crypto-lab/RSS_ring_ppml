@@ -15,7 +15,7 @@ then
     declare -a batch_sizes=("1" "5" "10" "25" "50")
     for batch in "${batch_sizes[@]}"
     do
-        sleep ${sleep_times[$index]}; ./build/rss_nn $2 $config_name minionn 1000 $batch $model_dir | tee -a 5pc_minionn_$timestamp.txt
+        sleep ${sleep_times[$index]}; ./build/rss_nn $2 $config_name minionn 1000 $batch $model_dir | tee -a 5pc_minionn_$2_$timestamp.txt
     done
 
 elif [ "$1" = "q_mobilenet" ];
@@ -28,8 +28,8 @@ then
         do
             for bat in "${batches[@]}"
             do
-                echo "sleep ${sleep_times[$index]}; ./build/rss_nn $2 $config_name q_mobilenet $dim $alpha_ind $bat 5 1 $model_dir | tee -a 5pc_mobilenet_$timestamp.txt"
-                sleep ${sleep_times[$index]}; ./build/rss_nn $2 $config_name q_mobilenet $dim $alpha_ind $bat 5 1 $model_dir | tee -a 5pc_mobilenet_$timestamp.txt
+                echo "sleep ${sleep_times[$index]}; ./build/rss_nn $2 $config_name q_mobilenet $dim $alpha_ind $bat 5 1 $model_dir | tee -a 5pc_mobilenet_$2_$timestamp.txt"
+                sleep ${sleep_times[$index]}; ./build/rss_nn $2 $config_name q_mobilenet $dim $alpha_ind $bat 5 1 $model_dir | tee -a 5pc_mobilenet_$2_$timestamp.txt
             done
         done
     done
