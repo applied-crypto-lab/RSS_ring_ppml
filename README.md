@@ -84,6 +84,11 @@ An example run of party 3 benchmarking 3-party `mult` with `k = 30`, a size of 1
 ./rss_nn 3 runtime-config-3 micro mult 30 1000 1 50
 ```
 
+To run all the benchmarks reported in the paper (for **either** `k = 30` or `k = 60`), run the script
+```
+./micro_runner.sh <n> <id> <ring_size>
+```
+
 ### MiniONN network evaluation (`minionn`)
 
 The `minionn` argument runs the four-layer CNN from Liu et al.'s landmark 2017 paper "Oblivious Neural Network Predictions via MiniONN Transformations" (Figure 12). The program must be compiled using the `31 <= k <= 62` from above. To run the benchmark, execute the following command
@@ -94,6 +99,7 @@ The options are:
 - `num_images` is the number of images you want to evaluate (in total)
 - `batch_size` is the batch size of images you want to evaluate concurrently (e.g. 1, 5, 10)
 - `model_path` is the path to the directory containing the models
+
 
 ### Quantized Mobilenets evaluation (`q_mobilenet`)
 
@@ -108,3 +114,9 @@ The options are:
 - `num_iterations` is the number of times the computation is repeated, and therefore averaged over to eliminate any deviation
 - `num_discarded` is the number of runs which are discarded before recording the actual run times (i.e. the warmup period)
 - `model_path` is the path to the directory containing the models
+
+To run all the ML benchmarks reported in the paper, run either of the following scripts:
+```
+./ml_runner.sh <n> <arg> <id> <model_path>
+```
+where `<arg>` is either `minionn` or `q_mobilenet`.
