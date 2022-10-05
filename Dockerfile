@@ -6,4 +6,4 @@ RUN git clone https://github.com/anbaccar/RSS_ring_ppml.git
 
 WORKDIR "/RSS_ring_ppml"
 
-RUN ssh_keygen.sh
+RUN ./ssh_keygen.sh
