@@ -11,7 +11,7 @@ If you are interested in running any neural network experiments, you can downloa
 
 ## Compilation
 
-The implementation supports rings over $\mathbb{Z}_{2^k}$ for $k \leq 62$. To compile the code, run the commands below, which assume you're using clang 11. You can replace the values `CMAKE_C_COMPILER` and `CMAKE_CXX_COMPILER` with another compiler of your choosing.
+The implementation supports rings over $\mathbb{Z}_{2^{k}}$ for $k \leq 62$. To compile the code, run the commands below, which assume you're using clang 11. You can replace the values `CMAKE_C_COMPILER` and `CMAKE_CXX_COMPILER` with another compiler of your choosing.
 ```
 mkdir build
 cd build
@@ -19,11 +19,11 @@ cd build
 The code uses different definitions of the type `Lint` depending on the chosen ring size `k` to aid in overall performance. If `k <= 30`, run
 
 ```
-cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=ON ..
+cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=ON .. ; make
 ```
 Otherwise (`31 <= k <= 62`), run
 ```
-cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=ON ..
+cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang-11 -D CMAKE_CXX_COMPILER=clang++-11 -DUSE_30=OFF .. ; make
 ```
 
 ## Key generation
@@ -64,7 +64,7 @@ The options are:
 
 ### MiniONN network evaluation (`minionn`)
 
-The `minionn` argument runs the four-layer CNN from Liu~et~al.'s landmark 2017 paper "Oblivious Neural Network Predictions via MiniONN Transformations" (Figure 12). The program must be compiled using the `31 <= k <= 62` from above. To run the benchmark, execute the following command
+The `minionn` argument runs the four-layer CNN from Liu et al.'s landmark 2017 paper "Oblivious Neural Network Predictions via MiniONN Transformations" (Figure 12). The program must be compiled using the `31 <= k <= 62` from above. To run the benchmark, execute the following command
 ```
 ./build/rss_nn <id> <config> minionn <num_images> <batch_size> <model_path>
 ```
