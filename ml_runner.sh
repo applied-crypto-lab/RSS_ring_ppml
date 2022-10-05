@@ -18,6 +18,7 @@ else
 fi
 
 index=$(($(($id)) - 1))
+echo $id
 
 timestamp=$(date -d "today" +"%Y%m%d%H%M")
 echo $timestamp
