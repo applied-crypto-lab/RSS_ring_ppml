@@ -1,7 +1,7 @@
 config_name=runtime-config-$1
 
-# timestamp=$(date -d "today" +"%Y%m%d%H%M")
-# echo $timestamp
+timestamp=$(date -d "today" +"%Y%m%d%H%M")
+echo $timestamp
 
 declare -a exps=(
     "mult 60 1 1 10"
