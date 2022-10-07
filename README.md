@@ -8,7 +8,7 @@ This is our implementation of the protocols and from our PETS 2023.1 paper "Mult
 - CryptoPP (tested with 5.6.4)
 - x86 CPU (ARM/Apple Silicon are currently incompatible)
 
-If you are interested in running any neural network experiments, you can download the models and data used in the paper from [this link](https://drive.google.com/file/d/1loj9UjmFnKABVB8tLpRoIJUs2YdkFA_2/view?usp=sharing).
+If you are interested in running any neural network experiments (3- and 5-party only at this time), you can download the models and data used in the paper from [this link](https://drive.google.com/file/d/1loj9UjmFnKABVB8tLpRoIJUs2YdkFA_2/view?usp=sharing).
 
 ## Known Issues
 
