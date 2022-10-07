@@ -115,7 +115,7 @@ The options are:
 - `num_discarded` is the number of runs which are discarded before recording the actual run times (i.e. the warmup period)
 - `model_path` is the path to the directory containing the models
 
-To run all the ML benchmarks reported in the paper, run either of the following scripts:
+To run all the ML benchmarks reported in the paper, run either the following script:
 ```
 ./ml_runner.sh <n> <arg> <id> <model_path>
 ```
