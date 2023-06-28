@@ -1,5 +1,17 @@
 # Replicated Secret Sharing over a Ring
-This is our implementation of the protocols and from our PETS 2023.1 paper "Multi-Party Replicated Secret Sharing over a Ring with Applications to Privacy-Preserving Machine Learning." In its current state, the implementation supports 3-, 5-, and 7-party computation in the semi-honest, honest majority setting.
+This is our implementation of the protocols and benchmarks from our [PETS 2023.1 paper](https://petsymposium.org/popets/2023/popets-2023-0035.php) "Multi-Party Replicated Secret Sharing over a Ring with Applications to Privacy-Preserving Machine Learning."  This work can be cited as follows:
+```
+@article{baccarini2023rss,
+  title={Multi-Party Replicated Secret Sharing over a Ring with Applications to Privacy-Preserving Machine Learning},
+  author={Baccarini, Alessandro and Blanton, Marina and Yuan, Chen},
+  journal={Proceedings on Privacy Enhancing Technologies (PoPETs)},
+  volume = 2023,
+  number = 1,
+  pages={608-626}, 
+  year={2023}
+}
+```
+In its current state, the implementation supports 3-, 5-, and 7-party computation in the semi-honest, honest majority setting.
 
 ## Requirements
 
@@ -115,7 +127,7 @@ The options are:
 - `num_discarded` is the number of runs which are discarded before recording the actual run times (i.e. the warmup period)
 - `model_path` is the path to the directory containing the models
 
-To run all the ML benchmarks reported in the paper, run either the following script:
+To run all the ML benchmarks reported in the paper, run the following script:
 ```
 ./ml_runner.sh <n> <arg> <id> <model_path>
 ```
